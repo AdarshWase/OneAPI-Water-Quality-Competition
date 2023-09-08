@@ -25,10 +25,12 @@ def fill_source_with_mode(X):
     return X
 
 def delete_non_important_columns(X):
-    del X['Day']
-    del X['Index']
-    del X['Month']
-    del X['Time of Day']
+    columns_to_keep = ['pH', 'Iron', 'Nitrate', 'Chloride', 'Lead', 'Zinc', 'Color',
+                       'Turbidity', 'Fluoride', 'Copper', 'Odor', 'Sulfate', 'Conductivity',
+                       'Chlorine', 'Manganese', 'Total Dissolved Solids', 'Source',
+                       'Water Temperature', 'Air Temperature']
+    
+    X = X.loc[:, columns_to_keep]
     return X
 
 def create_new_columns(X):
