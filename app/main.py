@@ -41,7 +41,7 @@ st.markdown("<hr>", unsafe_allow_html=True)
 mdlit('<p style="font-size: 33px; text-align: center;"><b>Predict the Water Quality</b></p>')
 st.write(" ")
 
-tab1, tab2 = st.tabs(['Upload Data', 'Use Sample Data'])
+tab1, tab2 = st.tabs(['Upload Data', 'Enter Data Manually'])
 
 with tab1:
     mdlit('<p style="font-size: 23px; text-align: center;"><b>Upload your data here</b></p>')
@@ -70,44 +70,44 @@ with tab2:
     mdlit('<p style="font-size: 23px; text-align: center;"><b>Fill your data here</b></p>')
 
     number = random.randint(0, 4)
-    col1, col2, col3 = st.columns(3)
-
+    
     # Add input fields to the first column
-    with col1:
-        pH = st.number_input("pH", min_value = 0.0, max_value = 14.0, value = sample.iloc[number]['pH'].round(2), step = 0.5)
-        Iron = st.number_input("Iron", min_value = 0.0, max_value = 20.0, value = sample.iloc[number]['Iron'].round(2), step = 1.0)
-        Nitrate = st.number_input("Nitrate", min_value = 0.0, max_value = 100.0, value = sample.iloc[number]['Nitrate'].round(2), step = 5.0)
-        Chloride = st.number_input("Chloride", min_value = 0.0, max_value = 1500.0, value = sample.iloc[number]['Chloride'].round(2), step = 50.0)
-        Lead = st.number_input("Lead", min_value = 0.0, max_value = 5.0, value = sample.iloc[number]['Lead'].round(2), step = 0.2)
-        Zinc = st.number_input("Zinc", min_value = 0.0, max_value = 30.0, value = sample.iloc[number]['Zinc'].round(2), step = 1.0)
-        color_options = ['Colorless', 'Faint Yellow', 'Light Yellow', 'Near Colorless', 'Yellow']
-        Color = st.selectbox('Water Color', color_options)
+    with st.form(key='form1'):
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            pH = st.number_input("pH", min_value = 0.0, max_value = 14.0, step = 0.5)
+            Iron = st.number_input("Iron", min_value = 0.0, max_value = 20.0, step = 1.0)
+            Nitrate = st.number_input("Nitrate", min_value = 0.0, max_value = 100.0, step = 5.0)
+            Chloride = st.number_input("Chloride", min_value = 0.0, max_value = 1500.0, step = 50.0)
+            Lead = st.number_input("Lead", min_value = 0.0, max_value = 5.0, step = 0.2)
+            Zinc = st.number_input("Zinc", min_value = 0.0, max_value = 30.0, step = 1.0)
+            color_options = ['Colorless', 'Faint Yellow', 'Light Yellow', 'Near Colorless', 'Yellow']
+            Color = st.selectbox('Water Color', color_options)
 
-    with col2:
-        Turbidity = st.number_input("Turbidity", min_value = 0.0, max_value = 25.0, value = sample.iloc[number]['Turbidity'].round(2), step = 2.0)
-        Fluoride = st.number_input("Fluoride", min_value = 0.0, max_value = 15.0, value = sample.iloc[number]['Fluoride'].round(2), step = 0.5)
-        Copper = st.number_input("Copper", min_value = 0.0, max_value = 15.0, value = sample.iloc[number]['Copper'].round(2), step = 0.5)
-        Odor = st.number_input("Odor", min_value = 0.0, max_value = 5.0, value = sample.iloc[number]['Odor'].round(2), step = 0.5)
-        Sulfate = st.number_input("Sulfate", min_value = 0.0, max_value = 1500.0, value = sample.iloc[number]['Sulfate'].round(2), step = 20.0)
-        Conductivity = st.number_input("Conductivity", min_value = 0.0, max_value = 2000.0, value = sample.iloc[number]['Conductivity'].round(2), step = 100.0)
+        with col2:
+            Turbidity = st.number_input("Turbidity", min_value = 0.0, max_value = 25.0, step = 2.0)
+            Fluoride = st.number_input("Fluoride", min_value = 0.0, max_value = 15.0, step = 0.5)
+            Copper = st.number_input("Copper", min_value = 0.0, max_value = 15.0, step = 0.5)
+            Odor = st.number_input("Odor", min_value = 0.0, max_value = 5.0, step = 0.5)
+            Sulfate = st.number_input("Sulfate", min_value = 0.0, max_value = 1500.0, step = 20.0)
+            Conductivity = st.number_input("Conductivity", min_value = 0.0, max_value = 2000.0, step = 100.0)
 
-    with col3:   
-        Chlorine = st.number_input("Chlorine", min_value = 0.0, max_value = 15.0, value = sample.iloc[number]['Chlorine'].round(2), step = 1.2)
-        Manganese = st.number_input("Manganese", min_value = 0.0, max_value = 25.0, value = sample.iloc[number]['Manganese'].round(2), step = 1.5)
-        total_dissolved_solids = st.number_input("Total Dissolved Solids", min_value = 0.0, max_value = 600.0, value = sample.iloc[number]['Total Dissolved Solids'].round(2), step = 25.0)
-        source_options = ['Lake', 'River', 'Ground', 'Spring', 'Stream', 'Aquifer', 'Reservoir', 'Well']
-        Source = st.selectbox('Water Source', source_options)
-        water_temperature = st.number_input("Water Temperature", min_value = 0.0, max_value = 300.0, value = sample.iloc[number]['Water Temperature'].round(2), step = 15.0)
-        air_temperature = st.number_input("Air Temperature", min_value = 0.0, max_value = 150.0, value = sample.iloc[number]['Air Temperature'].round(2), step = 15.0)
+        with col3:   
+            Chlorine = st.number_input("Chlorine", min_value = 0.0, max_value = 15.0, step = 1.2)
+            Manganese = st.number_input("Manganese", min_value = 0.0, max_value = 25.0, step = 1.5)
+            total_dissolved_solids = st.number_input("Total Dissolved Solids", min_value = 0.0, max_value = 600.0, step = 25.0)
+            source_options = ['Lake', 'River', 'Ground', 'Spring', 'Stream', 'Aquifer', 'Reservoir', 'Well']
+            Source = st.selectbox('Water Source', source_options)
+            water_temperature = st.number_input("Water Temperature", min_value = 0.0, max_value = 300.0, step = 15.0)
+            air_temperature = st.number_input("Air Temperature", min_value = 0.0, max_value = 150.0, step = 15.0)
 
-    # Create a pandas dataframe from the user input data
-    predict_button_2 = st.button(key = 'predict_button_21', label = 'Make Prediction')
+        predict_button_2 = st.form_submit_button('Make Prediction')
 
-    if predict_button_2:
-        data = {'pH': [pH], 'Iron': [Iron], 'Nitrate': [Nitrate], 'Chloride': [Chloride], 'Lead': [Lead], 'Zinc': [Zinc], 'Color': [Color], 'Turbidity': [Turbidity], 'Fluoride': [Fluoride], 'Copper': [Copper], 'Odor': [Odor], 'Sulfate': [Sulfate], 'Conductivity': [Conductivity], 'Chlorine': [Chlorine], 'Manganese': [Manganese], 'Total Dissolved Solids': [total_dissolved_solids], 'Source': [Source], 'Water Temperature': [water_temperature], 'Air Temperature': [air_temperature]}
-        df_user = pd.DataFrame(data)
+        if predict_button_2:
+            data = {'pH': [pH], 'Iron': [Iron], 'Nitrate': [Nitrate], 'Chloride': [Chloride], 'Lead': [Lead], 'Zinc': [Zinc], 'Color': [Color], 'Turbidity': [Turbidity], 'Fluoride': [Fluoride], 'Copper': [Copper], 'Odor': [Odor], 'Sulfate': [Sulfate], 'Conductivity': [Conductivity], 'Chlorine': [Chlorine], 'Manganese': [Manganese], 'Total Dissolved Solids': [total_dissolved_solids], 'Source': [Source], 'Water Temperature': [water_temperature], 'Air Temperature': [air_temperature]}
+            df_user = pd.DataFrame(data)
 
-        cleaned_df_user = pipeline.transform(df_user)
-        prediction_user = model.predict(cleaned_df_user)
+            cleaned_df_user = pipeline.transform(df_user)
+            prediction_user = model.predict(cleaned_df_user)
 
-        st.write('Prediction - ', [prediction_user])
+            st.write('Prediction - ', [prediction_user])
