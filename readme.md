@@ -4,6 +4,8 @@
 
 This project aims to predict water quality, a critical aspect of environmental and public health. Leveraging a comprehensive dataset and advanced machine learning techniques, we strive to provide valuable insights into the suitability of water for consumption.
 
+**App Link** - https://oneapi-water-quality.streamlit.app/
+
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
