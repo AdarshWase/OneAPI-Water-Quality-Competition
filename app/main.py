@@ -6,17 +6,25 @@ import daal4py as d4p
 import streamlit as st
 
 from statistics import mode
+from markdownlit import mdlit
+from streamlit_lottie import st_lottie
 from preprocessing import fill_missing_with_mean, fill_color_mapping, fill_source_with_mode
 from preprocessing import delete_non_important_columns, create_new_columns, scale_features
 
-lgb_model = joblib.load('model/lgb_model.joblib')
-daal_model = joblib.load('model/xgb_model.joblib')
-pipeline = joblib.load('model/preprocessing_pipeline.joblib')
-
-from markdownlit import mdlit
-from streamlit_lottie import st_lottie
-
 st.set_page_config(page_title = 'Water Quality Prediction', page_icon = '💧', layout = 'wide')
+
+
+@st.cache_resource(show_spinner = False)
+def load_models():
+    lgb_model = joblib.load('model/lgb_model.joblib')
+    daal_model = joblib.load('model/xgb_model.joblib')
+    pipeline = joblib.load('model/preprocessing_pipeline.joblib')
+    metric = pd.read_csv('data/metrics.csv')
+
+    return lgb_model, daal_model, pipeline, metric
+
+lgb_model, daal_model, pipeline, metric = load_models()
+
 
 # Title
 mdlit('<p style="font-size: 53px; text-align: center;"><b>Water Quality Prediction with OneAPI</b></p>')
@@ -145,6 +153,7 @@ mdlit(text3)
 one, two = st.columns([1, 2])
 with one:
     st.image("image/mind.png")
+    st.dataframe(metric) 
 
 with two:
     mdlit('<p style="font-size: 23px; text-align: center;"><b>Strategies</b></p>')
