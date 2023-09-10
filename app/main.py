@@ -111,3 +111,30 @@ with tab2:
             prediction_user = model.predict(cleaned_df_user)
 
             st.write('Prediction - ', [prediction_user])
+
+st.markdown("<hr>", unsafe_allow_html=True)
+
+# Third Block
+
+mdlit('<p style="font-size: 33px; text-align: center;"><b>Tech Stack and Strategies</b></p>')
+text1 = "Our project harnesses a powerful suite of technologies tailored to ensure accuracy, efficiency, and reliability in every facet of water quality analysis. Leveraging the Intel Optimized Modin and Pandas libraries, we enable swift and seamless data processing, providing a robust foundation for subsequent analytical tasks. Complementing this, the Intel AI Analytics Toolkit empowers us with a comprehensive set of tools for in-depth data exploration and insightful visualizations."
+text2 = "To track experiments and model versions with precision, we rely on the GitHub MLflow integration and Data Version Control (DVC), ensuring transparency and reproducibility in our research endeavors. Fine-tuning our models for optimal performance is facilitated by the Intel Optimized XGBoost and Optuna, optimizing hyperparameters to achieve superior accuracy. Additionally, we employ the Intel Optimized scikit-learn library to enhance the efficiency of our machine learning algorithms."
+text3 = "For seamless deployment, we utilize GitHub Actions in tandem with Streamlit, streamlining the transition from development to production. To further enhance model efficiency during inference, we've converted our XGBoost model into a daal4py model, capitalizing on its accelerated performance."
+mdlit(text1)
+mdlit(text2)
+mdlit(text3)
+
+one, two = st.columns([1, 2])
+with one:
+    st.image("image/mind.png")
+
+with two:
+    mdlit('<p style="font-size: 23px; text-align: center;"><b>Strategies</b></p>')
+
+    features = """<ul>
+    <li><b>Analysis</b>: The analysis phase was conducted on the Intel Optimized DevCloud Python platform. This environment facilitated an in-depth exploration of the dataset, revealing a notable prevalence of outliers and missing values. Furthermore, I employed powerful visualization tools like Seaborn and Matplotlib to gain comprehensive insights into the data's characteristics.'</li>
+    <li><b>Feature Engineering</b>: In this crucial phase, I meticulously curated the dataset to enhance its predictive power. Here are the key steps: Missing Values: Addressing missing data is paramount. Employing a combination of mean and median imputations, alongside count mapping, I meticulously handled most of the gaps in the dataset. Outliers: Recognizing their potential value, I refrained from outright removal of outliers. Instead, I harnessed their presence to construct new features, bolstering the robustness of predictions. Feature Creations: Leveraging a binning approach, I ingeniously derived new features from existing ones and their associated outliers, introducing a layer of depth to the dataset.</li>
+    <li><b>Sentiment analysis model</b>: A robust validation strategy is crucial for accurately assessing model performance. To this end, I adopted a multifaceted approach. By generating multiple validation datasets, I ensured a realistic evaluation of my model's predictive capabilities. This comprehensive validation framework provides a reliable indicator of the model's performance across various scenarios.</li>
+    </ul> 
+    """
+    mdlit(features)
