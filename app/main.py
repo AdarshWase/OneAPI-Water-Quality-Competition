@@ -2,13 +2,16 @@ import joblib
 import random
 import numpy as np
 import pandas as pd
+import daal4py as d4p
 import streamlit as st
+
+from statistics import mode
 from preprocessing import fill_missing_with_mean, fill_color_mapping, fill_source_with_mode
 from preprocessing import delete_non_important_columns, create_new_columns, scale_features
 
-model = joblib.load('model/model.joblib')
+lgb_model = joblib.load('model/lgb_model.joblib')
+daal_model = joblib.load('model/xgb_model.joblib')
 pipeline = joblib.load('model/preprocessing_pipeline.joblib')
-sample = pd.read_csv('data/sample.csv')
 
 from markdownlit import mdlit
 from streamlit_lottie import st_lottie
@@ -54,9 +57,13 @@ with tab1:
             df = pd.read_csv(data)
 
             cleaned_df = pipeline.transform(df)
-            prediction = model.predict(cleaned_df)
+            lgb_predictions = lgb_model.predict(cleaned_df)
+            daal_prediction = d4p.gbt_classification_prediction(nClasses = 2).compute(cleaned_df, daal_model).prediction
+            daal_prediction = np.ravel(daal_prediction).astype(int)
+            prediction = [mode([lgb_predictions[i], daal_prediction[i]]) for i in range(len(daal_prediction))]
 
-            new_df_batched = df.insert(loc = 0, column = 'Predictions', value = prediction)
+            detailed_predictions = ['Safe' if prediction[i] == 0 else 'Not Safe' for i in range(len(prediction))]
+            new_df_batched = df.insert(loc = 0, column = 'Predictions', value = detailed_predictions)
             styled_df = df.style.apply(lambda x: ['background-color: #ADD8E6' if i == 0 else '' for i in range(len(x))], axis=1)
 
             p_col, d_col = st.columns([1, 2])
@@ -108,9 +115,20 @@ with tab2:
             df_user = pd.DataFrame(data)
 
             cleaned_df_user = pipeline.transform(df_user)
-            prediction_user = model.predict(cleaned_df_user)
+            lgb_predictions_user = lgb_model.predict(cleaned_df_user)
+            daal_prediction_user = d4p.gbt_classification_prediction(nClasses = 2).compute(cleaned_df_user, daal_model).prediction
+            daal_prediction_user = np.ravel(daal_prediction_user).astype(int)
+            prediction_user = [mode([lgb_predictions_user[i], daal_prediction_user[i]]) for i in range(len(daal_prediction_user))]
 
-            st.write('Prediction - ', [prediction_user])
+            detailed_predictions_user = ['Safe' if prediction_user[i] == 0 else 'Not Safe' for i in range(len(prediction_user))]
+
+            col_1_predict, col_2_predict = st.columns([1, 2])
+            
+            with col_1_predict:
+                st.write('Prediction - ', [prediction_user])
+            
+            with col_2_predict:
+                st.write('The Water is - ', [detailed_predictions_user[0]])
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
